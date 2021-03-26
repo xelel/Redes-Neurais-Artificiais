@@ -39,6 +39,8 @@ treino = copy.deepcopy(dados[142:])
 treino = np.insert(treino, 0, bias, axis=1)
 
 # replica de saidas ==0
+#balanceamento das amostras já que o número de amostras malignas é menor.
+
 replica = treino[treino[:, 31] == 0]
 treino = np.concatenate((treino, replica))
 # distribuicao aleatoria dos dados de treino
