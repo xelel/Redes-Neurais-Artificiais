@@ -18,6 +18,7 @@ entradas = base.data
 # Normalizacao das entradas
 # xr = (xr – min(xR)) / (max(xR) – min(xR))
 # yr = (yr – min(yR)) / (max(yR) – min(yR))
+#evita que os pesos sejam ajustados desproporcionamente.
 
 for i in range(30):
     a = entradas[:, i]
@@ -25,6 +26,7 @@ for i in range(30):
 
 
 # Deslocamento dos valores de entrada 0(minimo) e 1(maximo) em 0.05
+#reduz o custo computacional quando os pesos sinapticos tendem a infinito 
 entradas[entradas == 1] = 0.95
 entradas[entradas == 0] = 0.05
 
@@ -91,9 +93,10 @@ for j in range(epocas):
 
     # funcao de ativacao aplicada aos valores das sinapses
     camadaSaida = sigmoid(somaSinapse1)
-    # calculo do erro da época
-
-    erroCamadaSaida = (saidas_Treino - camadaSaida)
+    
+    # calculo do erro quadrático da época
+    #penaliza erros maiores e reduz o treinamento em erros menores.
+   erroCamadaSaida = (saidas_Treino - camadaSaida)
     sinal = np.where(erroCamadaSaida > 0, 1, -1)
     erroCamadaSaida = (erroCamadaSaida**2)*sinal
 
